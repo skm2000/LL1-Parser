@@ -1,0 +1,30 @@
+,string,-,,,+,),(,greaterthan,lessthanequals,$,},notequals,{,equals,eof,lessthan,greaterthanequals,decrement,void,while,id,;,stringToken,char,charToken,increment
+<ASSIGNEXPR>,,,,,,,,,,,,,[equals  <T>  <NUM_EXPR>],,,,,,,,,,,,
+<BOOL_EXPR>,,,,,,,[<RELN_OP>  <BOOL_EXPR'>],[<RELN_OP>  <BOOL_EXPR'>],,,[<RELN_OP>  <BOOL_EXPR'>],,,,[<RELN_OP>  <BOOL_EXPR'>],[<RELN_OP>  <BOOL_EXPR'>],,,,,,,,,
+<OTHER_IDENTIFIERS>,,,[   id  <OTHER_IDENTIFIERS>],,,,,,,,,,,,,,,,,,[EPSILON],,,,
+<S>,,[<NUM_EXPR>],,[<NUM_EXPR>],,,[<BOOL_EXPR>],[<BOOL_EXPR>],,,[<BOOL_EXPR>],,[<ASSIGNEXPR>],,[<BOOL_EXPR>],[<BOOL_EXPR>],,,,,[EPSILON],,,,
+<ADD_OP>,,[-],,[+],,,,,,,,,,,,,,,,,,,,,
+<DECLARATION>,,,[<A>],,,,,,,,,,,,,,,,,,[EPSILON],,,,
+<TYPE>,[string],,,,,,,,,,,,,,,,,[void],,,,,[char],,
+<EXPR>,,,,,,,,,,,,,,,,,,,,[<T>  <S>],,,,,
+<ARGS>,[<TYPE>  id  <ARGS1>],,,,[EPSILON],,,,,,,,,,,,,[<TYPE>  id  <ARGS1>],,,,,[<TYPE>  id  <ARGS1>],,
+<STATEMENTS>,[<STATEMENT>  ;  <C>],,,,,,,,,[EPSILON],,[<BLOCK>],,[EPSILON],,,[<STATEMENT>  ;  <C>],[<STATEMENT>  ;  <C>],[<WHILE_STMT>],[<STATEMENT>  ;  <C>],,,[<STATEMENT>  ;  <C>],,[<STATEMENT>  ;  <C>]
+<INC_DEC_STMT>,,,,,,,,,,,,,,,,,[decrement  id],,,,,,,,[increment  id]
+<B>,,,[<DECLARATION>],,,,,,,,,,[<ASSIGNMENT>],,,,,,,,[EPSILON],,,,
+<RIGHT_HAND_SIDE>,,,,,,,,,,,,,,,,,,,,[<EXPR>],,[stringToken],,[charToken],
+<ARGS1>,,,[   <TYPE>  id  <ARGS1>],,[EPSILON],,,,,,,,,,,,,,,,,,,,
+<STATEMENT>,[<DECASSIGN>],,,,,,,,,,,,,,,,[<INC_DEC_STMT>],[<DECASSIGN>],,[<EXPR>],,,[<DECASSIGN>],,[<INC_DEC_STMT>]
+<RELN_OP>,,,,,,,[greaterthan],[lessthanequals],,,[notequals],,,,[lessthan],[greaterthanequals],,,,,,,,,
+<T>,,,,,,,,,,,,,,,,,,,,[id],,,,,
+<WHILE_STMT>,,,,,,,,,,,,,,,,,,,[while  (  <BOOL_EXPR>  )  <BLOCK>],,,,,,
+<C>,[<STATEMENTS>],,,,,,,,,[EPSILON],,[<STATEMENTS>],,[EPSILON],,,[<STATEMENTS>],[<STATEMENTS>],[<STATEMENTS>],[<STATEMENTS>],,,[<STATEMENTS>],,[<STATEMENTS>]
+<NUM_EXPR>,,[<NUM_EXPR_>],,[<NUM_EXPR_>],,,,,,,,,,,,,,,,,[EPSILON],,,,
+<ASSIGNMENT>,,,,,,,,,,,,,[equals  <RIGHT_HAND_SIDE>],,,,,,,,,,,,
+<IDENTIFIERS>,,,[<OTHER_IDENTIFIERS>],,,,,,,,,,,,,,,,,,[EPSILON],,,,
+<FUNCTION>,[<TYPE>  id  (  <ARGS>  )  <BLOCK>],,,,,,,,,,,,,,,,,[<TYPE>  id  (  <ARGS>  )  <BLOCK>],,,,,[<TYPE>  id  (  <ARGS>  )  <BLOCK>],,
+<DECASSIGN>,[<TYPE>  id  <B>],,,,,,,,,,,,,,,,,[<TYPE>  id  <B>],,,,,[<TYPE>  id  <B>],,
+<PROGRAM>,[<FUNCTION>  eof],,,,,,,,,,,,,,,,,[<FUNCTION>  eof],,,,,[<FUNCTION>  eof],,
+<NUM_EXPR_>,,[<ADD_OP>  <EXPR>],,[<ADD_OP>  <EXPR>],,,,,,,,,,,,,,,,,[EPSILON],,,,
+<BLOCK>,,,,,,,,,,,,[{  <STATEMENTS>  }  <STATEMENTS>],,,,,,,,,,,,,
+<A>,,,[<IDENTIFIERS>],,,,,,,,,,,,,,,,,,[EPSILON],,,,
+<BOOL_EXPR'>,,,,,,,,,,,,,,,,,,,,[id],,,,[charToken],
