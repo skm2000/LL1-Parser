@@ -23,7 +23,7 @@ class Token{
 
         string getTokenId(){
             return this->token_id;
-        }
+        } 
 
         int getRow(){
             return this->row;
