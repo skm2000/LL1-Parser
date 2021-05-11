@@ -2,7 +2,7 @@
 
 class SymbolTable{
     public:
-        unordered_map<string,vector<Token>>string_tokens;
+        map<string,vector<Token>>string_tokens;
         fstream  symtabfile;
         fstream tokenfile;
 
@@ -18,9 +18,9 @@ class SymbolTable{
                 return;
             }
             symtabfile << "============================SYMBOL TABLE==========================\n";
-            symtabfile <<"-------------------------------------------------------------------------";
+            symtabfile <<"\n-------------------------------------------------------------------------\n";
             symtabfile << "|TOKEN\t\t" << "TOKEN_ID\t\t" << "ROW\t\t" <<"COLUMN\t\t" << "SCOPE|\n";
-            symtabfile <<"-------------------------------------------------------------------------";
+            symtabfile <<"\n-------------------------------------------------------------------------\n";
             // symtabfile >> "Token" >>"\t\t" >> "Token_ID" >>"\t\t"
         }
 
@@ -57,6 +57,7 @@ class SymbolTable{
         }
 
 };
+
 
 
 

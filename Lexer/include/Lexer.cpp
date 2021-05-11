@@ -1,113 +1,291 @@
-#include"SymbolTable.h"
-
-struct isSpace
-{
-    bool operator()(unsigned c)
-    {
-        return (c == ' ' || c == '\n' || c == '\t');
-    }
-};
-
-vector<string>untoken;
-vector<string>approved_token;
-
-void separateTokens(){
-    for(int i=0; i<untoken.size(); i++){
-        cout<<i<<":"<<untoken[i]<<"\n";
-    }
-    // for(auto x: untoken){
-    //     cout << x <<" ";
-    // }
-    // cout<<"\n";
-    for(auto x : untoken){
-        string temp = x, paren, lit_paren = "";
-        cout<<temp<<" ";
-        int paren_ind = -1;
-        char ch;
-        for(int j=0; j<temp.size(); j++){
-            ch = temp[j];
-            if(ch == '(' || ch == ')'){
-                paren = to_string(ch);
-                paren_ind = j;
-                break;
-            }else{
-                lit_paren += ch; 
-            }
-        }
-        if(lit_paren.size() > 0) approved_token.push_back(lit_paren);
-        // if(papproved_token.push_back(paren);
-        lit_paren = "";
-        paren = "";
-        if(paren_ind != -1){
-            for(int j=paren_ind+1; j<temp.size(); j++){
-                ch = temp[j];
-                if(ch == '(' || ch == ')'){
-                    paren = to_string(ch);
-                }else{
-                    lit_paren += ch;
-                }
-            }
-        }
-        approved_token.push_back(lit_paren);
-        approved_token.push_back(paren);
-        lit_paren = "";
-        paren = "";
-    }
-    cout<<approved_token.size()<<"\n";
-    // for(int i=0; i<approved_token.size(); i++){
-    //     cout<<i<<":"<<approved_token[i]<<"\n";
-    // }
-}
-
-
-
+#include "SymbolTable.h"
+#define ERROR "ERROR"
 
 SymbolTable * symtab;
-void insertInSymbolTable(string token,string token_id,int row,int column,int scope){
-    symtab->insert_token(new Token(token,token_id,row,column,scope));
+
+bool isAlpha(char ch){
+    return ((ch>='a' && ch<='z')||(ch>='A' && ch<='Z'));
 }
-// bool isDelimiter(char ch){
 
+bool isNum(char ch){
+    return (ch>='0' && ch<='9');
+}
 
+bool isDelimiter(char ch){
+    return ch==' '||ch=='\t';
+}
 
-// }
-void readCharByCharFile(string filename){
-    char ch;
-    string s, t;
-    int row,column,scope;
-    fstream fin(filename, ios::in);
-    //  string k = "   \n\n             ";
-    //  k.erase(remove_if(k.begin(), k.end(), isSpace()), k.end());
-    //         cout<<k.size()<<"\n";
-    
-    while (fin >> noskipws >> ch) {
-        // if(ch=='\t' || ch==' ' || ch=='\n'){
-        //     if(s!=""){
-        //         string token_id = determineTokenId(s);
-        //         insertInSymbolTable(s,token_id,row,column,scope);
-        //         s="";
-        //     }
-        //     continue;
-        // }
-       
-        if(ch != ' '){
-            s += ch;
-        }else{
-            s.erase(remove_if(s.begin(), s.end(), isSpace()), s.end());
-            if(s.size()>0){
-                untoken.push_back(s);
-                // cout << s << "\n";
-                s = "";
-            }
+bool isAlNum(string s){
+    for(int i=0;i<s.size();i++){
+        if(isAlpha(s[i] || isNum(s[i])))
+        {
+            return false;
         }
     }
-    untoken.push_back(s);
-    // cout<<s;
+    return true;
 }
 
-int main()
-{
-    readCharByCharFile("fil.txt");
-    separateTokens();
-    symtab = new SymbolTable("symtab.txt","token.txt");
+string toString(char c){
+    return string(1,c);
 }
+//id increment decrement + - equals notequals lessthan lessthanequals greaterthan 
+//greaterthanequals eof char string while charToken stringToken void , ( ) { } ; EPSILON
+
+string determineToken(string s){
+    if(s==""){
+        return "";
+    }
+    if(s==")"){
+        return ")";
+    }
+    if(s=="("){
+        return "(";
+    }
+    if(s=="{")
+    {
+        return "{";
+    }
+    if(s=="}"){
+        return "}";
+    }
+    if(s=="void"){
+        return "void";
+    }
+    if(s=="main"){
+        return "main";
+    }
+    if(s=="char"){
+        return "char";
+    }
+    if(s=="string"){
+        return "string";
+    }
+    if(s=="while"){
+        return "while";
+    }
+    if(s==";"){
+        return ";";
+    }
+    if(s==","){
+        return ",";
+    }
+    if(s=="eof"){
+        return "eof";
+    }
+    if(s=="<="){
+        return "lessthanequals";
+    }
+    if(s == "<"){
+        return "lessthan";
+    }
+    if(s == ">="){
+        return "greaterthanequals";
+    }
+    if(s == ">"){
+        return "greaterthan";
+    }
+
+    if(s == "="){
+        return "equals";
+    }
+    if(s[0]=='\"')
+        {
+            if(s[s.size()-1]=='\"')
+            {
+                return "stringToken";
+            }
+            else{
+                return ERROR;
+            }
+        }
+    if(s[0]=='\'' && s[s.size()-1]=='\'' && s.size()==3){
+        return "charToken";
+    }
+    if(isAlNum(s)){
+        if(isNum(s[0])){
+            return ERROR;
+        }
+        return "id";
+    }
+    return ERROR;
+}
+
+
+void generateTokens(string filename){
+    char ch;
+    char lastchr;
+    int row=0;
+    int column=0;
+    int scope=0;
+    bool lastCharPending = false;
+    bool opensinglequote = false;
+    bool opendoublequote = false;
+    string s;
+    string token_id;
+    Token * t;
+    fstream fin(filename, fstream::in);
+    while (fin >> noskipws >> ch) {
+        if(lastCharPending){
+            if(ch=='='){
+                s+=lastchr;
+                s+=ch;
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+                //* cout<<s<<" ";
+                s="";
+                lastCharPending = false;
+                continue;
+            }
+            else{
+                //cout<<lastchr;
+                string token_new = toString(lastchr);
+                token_id = determineToken(token_new);
+                symtab->insert_token(new Token(token_new,token_id,row,column,scope));
+                //updateSymbolTable(lastchr,determineTokenId(chr),row,column,scope);
+                s="";
+            }
+            lastCharPending = false;
+        }
+        if(ch==')' || ch=='(' || ch==';' || ch==','){
+            //cout<<s<<" ";
+            if(s!=""){
+                cout<<s<<endl;
+                token_id = determineToken(s);
+                symtab->insert_token(new Token(s,token_id,row,column,scope));
+            }
+            //cout<<ch<<" ";
+            string token_new = toString(ch);
+            token_id = determineToken(token_new);
+            symtab->insert_token(new Token(token_new,token_id,row,column,scope));
+            s="";
+        }
+        if(ch=='{'){
+            //cout<<s<<" ";
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            scope++;
+            //cout<<ch<<" ";
+            string token_new = toString(ch);
+            token_id = determineToken(token_new);
+            symtab->insert_token(new Token(token_new,token_id,row,column,scope));
+            s="";
+        }
+        if(ch=='}'){
+            //cout<<s<<" ";
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            scope--;
+            string token_new = toString(ch);
+            token_id = determineToken(token_new);
+            symtab->insert_token(new Token(token_new,token_id,row,column,scope));
+            //cout<<ch<<" ";
+            s="";
+        }
+        if(isDelimiter(ch)){
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+            s="";
+        }
+        if(ch=='\n'){
+            column=0;
+            row++;
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            s="";
+        }
+        if(ch=='<' || ch=='>'){
+            //cout<<s<<" ";
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+            s="";
+            lastchr=ch;
+            lastCharPending=true;
+        }
+        if(ch=='='){
+            //cout<<s<<" ";
+            if(s!=""){
+                token_id = determineToken(s);
+                t = new Token(s,token_id,row,column,scope); 
+                symtab->insert_token(t);
+            }
+            //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+            //cout<<ch<<" ";
+            string token_new = toString(ch);
+            token_id = determineToken(token_new);
+            symtab->insert_token(new Token(token_new,token_id,row,column,scope));
+            //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+            s="";
+        }
+        if(ch=='\''){
+            if(opensinglequote){
+                s+='\'';
+                //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+                if(s!=""){
+                    token_id = determineToken(s);
+                    t = new Token(s,token_id,row,column,scope); 
+                    symtab->insert_token(t);
+                }
+                //cout<<s<<" ";
+                s="";     
+                opensinglequote = false;
+            }
+            else{
+                opensinglequote =true;
+                s+='\'';
+            }
+        }
+        if(ch=='\"'){
+            if(opendoublequote){
+                s+='\"';
+                //updateSymbolTable(s,determineTokenId(s),row,column,scope);
+                //cout<<s<<" ";
+                if(s!=""){
+                    token_id = determineToken(s);
+                    t = new Token(s,token_id,row,column,scope); 
+                    symtab->insert_token(t);
+                }
+                s="";     
+                opendoublequote = false;
+            }
+            else{
+                opendoublequote =true;
+                s+='\"';
+            }
+        }
+        if(isNum(ch) || isAlpha(ch)){
+            s+=ch;
+        }
+        column++;
+    }
+    token_id = determineToken("eof");
+    t = new Token(s,token_id,row,column,scope); 
+    symtab->insert_token(t);
+    //cout<<"eof";
+    if(opensinglequote || opendoublequote){
+        cout<<"Error detected\n";
+    }
+}
+
+int main(){
+    symtab = new SymbolTable("symboltable.tab","../tokens.tok");
+    generateTokens("test.c");   
+}
+
