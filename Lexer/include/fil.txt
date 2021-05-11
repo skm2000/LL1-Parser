@@ -1,2 +1,3 @@
-         the quick brown
-jumps over the
+       void           main ( char c , 
+       string s )
+jumps        over             the
