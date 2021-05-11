@@ -285,7 +285,7 @@ void generateTokens(string filename){
 }
 
 int main(){
-    symtab = new SymbolTable("symboltable.tab","../tokens.tok");
+    symtab = new SymbolTable("symboltable.tab","../../tokens.tok");
     generateTokens("test.c");   
 }
 
