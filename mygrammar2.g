@@ -1,9 +1,9 @@
-%Tokens id increment decrement + - equals notequals lessthan lessthanequals greaterthan greaterthanequals eof char string while charToken stringToken void , ( ) { } ; EPSILON
+%Tokens main id increment decrement + - equals notequals lessthan lessthanequals greaterthan greaterthanequals eof char string while charToken stringToken void , ( ) { } ; EPSILON
 %Non-terminals <PROGRAM> <FUNCTION> <TYPE> <ARGS> <BLOCK> <ARGS1> <STATEMENTS> <STATEMENT> <DECLARATION> <A> <ASSIGNMENT> <INC_DEC_STMT> <WHILE_STMT> <IDENTIFIERS> <OTHER_IDENTIFIERS> <RIGHT_HAND_SIDE> <ADD_OP> <RELN_OP> <EXPR> <NUM_EXPR> <NUM_EXPR_> <T> <BOOL_EXPR> <DECASSIGN> <B> <C> <ASSIGNEXPR> <S>
 %Start <PROGRAM>
 %Rules
 <PROGRAM> : <FUNCTION> eof
-<FUNCTION> : <TYPE> id ( <ARGS> ) <BLOCK>
+<FUNCTION> : <TYPE> main ( <ARGS> ) <BLOCK>
 <ARGS> : <TYPE> id <ARGS1> | EPSILON
 <ARGS1> : , <TYPE> id <ARGS1> | EPSILON
 <TYPE> : void | char | string

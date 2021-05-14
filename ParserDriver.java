@@ -48,7 +48,7 @@ public class ParserDriver
 		{
 			// Set default paramenters
 			scannerFile = "scan.txt";
-			grammarFile = "grammar.txt";
+			grammarFile = "../grammar.txt";
 			parseTableFile = "parseTable.csv";
 			verbose = false;
 		}
