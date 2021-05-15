@@ -42,28 +42,20 @@ class SymbolTable{
             }
             symtabfile << "======================================SYMBOL TABLE==========================================\n";
             symtabfile << "\n--------------------------------------------------------------------------------------------\n";
-            symtabfile << "|LEXEME|\t\t" << "|TOKEN|\t\t" << "|ROW|\t\t" <<"|COLUMN|\t" << "|SCOPE|\n";
+            symtabfile << "|LEXEME|\t\t" << "|TOKEN|\t\t" << "|ROW|\t\t" <<"|COLUMN|\t\t" << "|SCOPE|\n";
             symtabfile << "--------------------------------------------------------------------------------------------\n";
         }
-
-
 
         bool insert_token(Token * t){
             if(t->token_id=="eof"){
                 tokenfile << t->token_id <<endl;
                 symtabfile.close();
                 tokenfile.close();
-                this->displaySym();
+                //this->displaySym();
             }
             else{
                 tokenfile << t->token_id<<" ";
-                if(t->token == "string"){
-                    symtabfile <<"| "<<t->token<<"\t"<<t->token_id<<"\t\t\t"<<t->row<<"\t\t"<<t->column<<"\t\t"<<t->scope<<"|"<<endl;
-                }
-                else if(t->token_id == "stringToken" || t->token_id == "charToken" || t->token_id == "lessthan" || t->token_id == "greaterthan"){
-                    symtabfile <<"| "<<t->token<<"\t\t"<<t->token_id<<"\t\t"<<t->row<<"\t\t"<<t->column<<"\t\t"<<t->scope<<"|"<<endl;
-                }
-                else symtabfile <<"| "<<t->token<<"\t\t"<<t->token_id<<"\t\t\t"<<t->row<<"\t\t"<<t->column<<"\t\t"<<t->scope<<"|"<<endl;
+                symtabfile << t->token << "\t\t" << t->token_id << "\t\t" << t->row << "\t\t" << t->column << "\t\t" << t->scope << "\n";
             }
             if(string_tokens.find(t->token) == string_tokens.end()){
                 vector<Token> newVec;
@@ -77,6 +69,7 @@ class SymbolTable{
                 return true;
             }
         }
+
 
         /**
          * ? displaySym()

@@ -94,6 +94,18 @@ string determineToken(string s){
     if(s == "="){
         return "equals";
     }
+    if(s=="++"){
+        return "increment";
+    }
+    if(s=="--"){
+        return "decrement";
+    }
+    if(s=="+"){
+        return "+";
+    }
+    if(s=="-"){
+        return "-";
+    }
     if(s[0]=='\"')
         {
             if(s[s.size()-1]=='\"')
