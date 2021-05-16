@@ -24,9 +24,10 @@ public class Parser
 		String inputToken;
 		while (! (stack.isEmpty() && input.isEmpty()) )
 		{
+			System.out.println(Parser.currentStackString(stack));
 			topRule = stack.peek();
 			inputToken = input.peek();
-			
+			System.out.println("Input token:"+inputToken);
 			// if terminal look up 
 			if(topRule.isTerminal())
 			{
@@ -35,6 +36,7 @@ public class Parser
 					// pop off matching symbols
 					input.pop();
 					stack.pop();
+					System.out.println("InputToken and top of stack matches, popping");
 					// update token number
 					tokenNumber++;
 				}
@@ -61,6 +63,7 @@ public class Parser
 
 				// add the new grammar rules to the stack
 				stack.pop();
+				System.out.println("Expanding Nonterminal");
 				for(int i = expandedRule.size() - 1; i>=0; i--)
 				{
 					stack.push(expandedRule.get(i));

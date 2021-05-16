@@ -30,6 +30,7 @@ void generateTokens(string filename){
                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -46,6 +47,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -62,6 +64,7 @@ void generateTokens(string filename){
                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -78,6 +81,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                     errortab->insert_token(t);
                     cout<<"Invalid token "<<s<<endl;
+                    errortab->closeFile();
                     exit(0);
                 }
                     symtab->insert_token(t);
@@ -93,6 +97,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -111,6 +116,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -122,6 +128,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -135,6 +142,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -147,6 +155,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -160,6 +169,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -171,6 +181,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -184,6 +195,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -200,6 +212,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -214,6 +227,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -231,6 +245,7 @@ void generateTokens(string filename){
                                     if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -259,6 +274,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -283,6 +299,7 @@ void generateTokens(string filename){
                                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -305,6 +322,7 @@ void generateTokens(string filename){
                         if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;
+                        errortab->closeFile();
                         exit(0);
                     }
                     symtab->insert_token(t);
@@ -314,7 +332,7 @@ void generateTokens(string filename){
     }
 }
 
-int main(){
+int main(int argc, char** argv){
     symtab = new SymbolTable("../../Output/symboltable.csv","../../tokens.tok");
     errortab = new SymbolTable("../../Output/errortab.csv","../../error_tokens.tok");
     generateTokens("../../Input/test.c");   

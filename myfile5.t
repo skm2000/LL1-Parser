@@ -1,1 +1,0 @@
-void id ( string id , char id ) { char id equals charToken ; char id equals charToken ; char id equals id + id ; } eof

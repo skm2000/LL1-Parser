@@ -88,6 +88,11 @@ class SymbolTable{
             }
         }
 
+        void closeFile(){
+            this->symtabfile.close();
+            this->tokenfile.close();
+        }
+
 };
 
 
