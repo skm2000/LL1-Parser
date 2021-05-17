@@ -1,4 +1,3 @@
-
 Step I: Scanner
 
 The scanner opens a file written with valid symbols in the tiny grammar, and writes a file containing a space separated tokenized version of the input to stdout.

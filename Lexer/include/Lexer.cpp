@@ -254,7 +254,7 @@ void generateTokens(string filename){
             //cout<<ch<<" ";
             string token_new = toString(ch);
             token_id = determineToken(token_new);
-            t = new Token(s,token_id,row,column,scope); 
+            t = new Token(token_new,token_id,row,column,scope); 
                                 if(token_id==ERROR){
                         errortab->insert_token(t);
                         cout<<"Invalid token "<<s<<endl;

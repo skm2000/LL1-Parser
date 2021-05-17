@@ -1,14 +1,5 @@
-
-
 import java.util.Hashtable;
 import java.util.LinkedList;
-
-/**
- * Data structure for the parse table
- * 
- * @author Logan Blyth, James McCarty, & Robert Rayborn 
- *
- */
 
 public class ParseTable
 {

@@ -2,12 +2,6 @@
 
 import java.util.LinkedList;
 
-/**
- * Class that parses the input string using the built parse table.
- * 
- * @author Logan Blyth, James McCarty, & Robert Rayborn 
- *
- */
 
 public class Parser 
 {

@@ -2,50 +2,57 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Class for a nonterminal rule.
- * 
- * @author Logan Blyth, James McCarty, & Robert Rayborn 
- *
- */
+ * * Assignment-3 of Compiler Design
+ * * @written by Shubham Kumar, Rajarshi Roychoudhary, Arka Maji, Susanka Mazumdar
+ * * Symbol Table header file
+*/
+
 
 public class NonterminalRule extends GrammarRule
 {
 	/**
-	 * Stores all of the production rules in a two dimensional linked list.
-	 * The first dimension represents the production rules separated by an or.
+	 * * Stores all of the production rules in a two dimensional linked list.
+	 * * The first dimension represents the production rules separated by an or.
 	 *   i.e. A -> BC | DE
-	 *   dimension one entries = { listBC, listDE }
-	 * The second dimension represents the grammar rules contained inside each production rule
+	 * * dimension one entries = { listBC, listDE }
+	 * * The second dimension represents the grammar rules contained inside each production rule
 	 *   i.e A -> BC | DE
 	 *   dimension two entries in A.get(0) = { B, C }
 	 */
+
 	private LinkedList<ProductionRule> productionRules;
+
 	/**
-	 * The follow set of the grammar rule.
+	 * * The follow set of the grammar rule.
 	 */
+
 	private LinkedList<TerminalRule> follow;
+
 	/**
-	 * Keeps track of the number of "primed" versions of the grammar rule.
-	 * Used for cases of indirect recursion.
+	 * * Keeps track of the number of "primed" versions of the grammar rule.
+	 * * Used for cases of indirect recursion.
 	 */
+
 	private GlobalInteger primeCount;
 	
 	/**
-	 * Chains to NonterminalRule(String sym, int pc) by assuming 
-	 * the rule has no primed versions (i.e. A', B'', etc.)
+	 * * Chains to NonterminalRule(String sym, int pc) by assuming 
+	 * * the rule has no primed versions (i.e. A', B'', etc.)
 	 * @param sym - name of grammar rule (ex A -> B C has sym = "A".). 
 	 */
+
 	public NonterminalRule(String sym)
 	{
 		this(sym,0);
 	}
 	
 	/**
-	 * Chains to NonterminalRule(String sym, GlobalInteger primeCount)
-	 * then set the primeCount to input parameter pc.
+	 * * Chains to NonterminalRule(String sym, GlobalInteger primeCount)
+	 * * then set the primeCount to input parameter pc.
 	 * @param sym - name of grammar rule (ex. A -> B C has sym = "A".). 
 	 * @param pc - the prime count (ex. if A'' exists then primeCount of A = 2).
 	 */
+
 	public NonterminalRule(String sym, int pc)
 	{
 		this(sym, null);
@@ -53,10 +60,11 @@ public class NonterminalRule extends GrammarRule
 	}
 
 	/**
-	 * Create a nonterminal node.
+	 * * Create a nonterminal node.
 	 * @param sym - name of grammar rule (ex. A -> B C has sym = "A".). 
 	 * @param primeCount - prime counter data structure
 	 */
+
 	private NonterminalRule(String sym, GlobalInteger primeCount)
 	{
 		this.symbol = sym;
@@ -168,9 +176,10 @@ public class NonterminalRule extends GrammarRule
  	//=======SUB CLASSES========================================================
 
 	/**
- 	 * A wrapper for a simple integer.  Used to keep track
- 	 * of the number of times we have primed a grammar rule.
+ 	 * * A wrapper for a simple integer.  Used to keep track
+ 	 * * of the number of times we have primed a grammar rule.
  	 */
+
  	private class GlobalInteger
 	{
 		private int integer;
@@ -192,9 +201,10 @@ public class NonterminalRule extends GrammarRule
 	}
  	
  	/**
- 	 * Data structure for a production rule.
- 	 * Contains a linked list of rules and their corresponding firsts.
+ 	 * * Data structure for a production rule.
+ 	 * * Contains a linked list of rules and their corresponding firsts.
  	 */
+
  	@SuppressWarnings("unused")
 	private class ProductionRule 
  	{
@@ -214,12 +224,13 @@ public class NonterminalRule extends GrammarRule
  		}
  		
  		//=======RULE STUFF===========
-		
+		// lhs
 		public void add(GrammarRule rule)
  		{
  			this.rule.add(rule);
  		}
  		
+		
  		public void addFirst(GrammarRule rule)
  		{
  			this.rule.addFirst(rule);
@@ -316,11 +327,12 @@ public class NonterminalRule extends GrammarRule
  		//=========FIRST STUFF==============
  		
  		/**
- 		 * unions first and (newFirsts - EPSILON) then returns whether there was an update.
+ 		 * * unions first and (newFirsts - EPSILON) then returns whether there was an update.
  		 * @param update - if true function returns true, else function returns 
  		 * 			true if there was an update. Basically default update value.
  		 * @param newFirsts - new first elements.
  		 */
+		
  		private boolean firstListUnion(boolean update, LinkedList<TerminalRule> newFirsts)
  		{
  			for(TerminalRule newFirst : newFirsts)
@@ -380,25 +392,27 @@ public class NonterminalRule extends GrammarRule
 	{
 		LinkedList<ProductionRule> nonLeftRules = new LinkedList<ProductionRule>();
 		LinkedList<ProductionRule> leftRules    = new LinkedList<ProductionRule>();
+
 		
-		// Collect the left recursion entries and non-left recursion entries
+		//* Collect the left recursion entries and non-left recursion entries
 		for(ProductionRule productionRule : this.productionRules)
 		{
-			if(productionRule.get(0) == this) // self left recursion present
+			//* self left recursion present
+			if(productionRule.get(0) == this) 
 				leftRules.add(productionRule);
 			else
 				nonLeftRules.add(productionRule);
 		}
 		
-		if(leftRules.isEmpty()) // no self-recursion present
+		if(leftRules.isEmpty()) //* no self-recursion present
 			return null;
 		
-		// create rule-prime entry
+		//* create rule-prime entry
 		NonterminalRule rulePrime = 
 			new NonterminalRule( this.primeString(this.symbol, this.primeCount.getInteger()+1) );		
 		
-		// add rule-prime entry to the end of the non left recursive rules
-		//  i.e. A -> BC   becomes  A -> BCA'
+		//* add rule-prime entry to the end of the non left recursive rules
+		//*  i.e. A -> BC   becomes  A -> BCA'
 		for(ProductionRule nonLeftRule : nonLeftRules)
 		{
 			if(!nonLeftRule.getFirst().equals(EpsilonRule.getEpsilonRule()))
@@ -569,10 +583,15 @@ public class NonterminalRule extends GrammarRule
  	// =======================================================================
 	
 	/**
-	 * Constructs the first set for the grammar rule.
+	 * * Constructs the first set for the grammar rule.
 	 * @param wasChanged - default value of the return boolean
 	 * @return - true if the first set was modified or the input was already true.
 	 */
+
+	//  S -> AB
+	//  A -> a | e
+	//  B -> c | d
+
 	public boolean constructFirst(boolean wasChanged)
 	{
 		boolean containsEpsilon;
