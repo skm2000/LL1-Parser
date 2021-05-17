@@ -1,41 +1,36 @@
 import java.io.*;
 import java.util.LinkedList;
 
-/**
- * Class that runs the parsing segment of the project.
- * 
- * @author Logan Blyth, James McCarty, & Robert Rayborn 
- *
- */
 
 public class ParserDriver
 {
 	private static boolean verbose;
 	
 	/**
-	 * If there are zero, three, or four input arguments then we are running a full parse table build and file parse
-	 * 		If there are zero inputs then 
-	 * 			we use the default scanner file "scan.txt"
-	 * 			we use the default grammar file "grammar.txt"
-	 * 			we use save the parse table to the default "parseTable.csv"
-	 * 		Else are three or four inputs then 
-	 * 			the first argument is the scanner file location
-	 * 			the second argument is the grammar file location
-	 * 			the third argument is the file location to save the parse table at (make sure to end in .csv if you want to read it in a spreadsheet editor)
-	 * 			If there are three inputs then
-	 * 				Verbose mode is off
-	 * 			Elseif the fourth input is -v then
-	 * 				Verbose mode is on (verbose mode is off with any other input)
-	 * Elseif there are one or two input arguments then we are just building the parse table
-	 * 		If there are one inputs then
-	 * 			the input is the grammar file location
-	 * 		Else there are two inputs then
-	 * 			the first argument is the grammar file location 
-	 * 			the second argument is the file location to save the parse table at (make sure to end in .csv if you want to read it in a spreadsheet editor)
-	 * Else the program will throw an error
+	 * * If there are zero, three, or four input arguments then we are running a full parse table build and file parse
+	 * *		If there are zero inputs then 
+	 * *			we use the default scanner file "scan.txt"
+	 * *			we use the default grammar file "grammar.txt"
+	 * *			we use save the parse table to the default "parseTable.csv"
+	 * *		Else are three or four inputs then 
+	 * *			the first argument is the scanner file location
+	 * *			the second argument is the grammar file location
+	 * *			the third argument is the file location to save the parse table at (make sure to end in .csv if you want to read it in a spreadsheet editor)
+	 * *			If there are three inputs then
+	 * *				Verbose mode is off
+	 * *			Elseif the fourth input is -v then
+	 * *				Verbose mode is on (verbose mode is off with any other input)
+	 * * Elseif there are one or two input arguments then we are just building the parse table
+	 * *		If there are one inputs then
+	 * *			the input is the grammar file location
+	 * *		Else there are two inputs then
+	 * *			the first argument is the grammar file location 
+	 * *			the second argument is the file location to save the parse table at (make sure to end in .csv if you want to read it in a spreadsheet editor)
+	 * * Else the program will throw an error
 	 * 
 	 * @param args
 	 */
+
 	public static void main(String[] args)
 	{
 		
@@ -108,11 +103,14 @@ public class ParserDriver
 
 			// Read "Tokens" line
 			line = br.readLine();
+			// System.out.println(line);
 			line = removeMultipleSpaces(line);
 			lineTokens = line.trim().split(" ");
+
 			if (!lineTokens[0].equals("%Tokens"))
 				throw new RuntimeException("\n Grammar file malformed.");
 			terminalTokens = new String[lineTokens.length-1];
+
 			for(int i=0; i<terminalTokens.length; i++)
 				{
 					terminalTokens[i] = lineTokens[i+1].trim();
@@ -131,6 +129,7 @@ public class ParserDriver
 					nonterminalTokens[i] = lineTokens[i+1].trim();
 					// System.out.println(nonterminalTokens[i]);
 				}
+			
 			// Start line
 			line = br.readLine();
 			line = removeMultipleSpaces(line);
@@ -138,7 +137,7 @@ public class ParserDriver
 			if (!lineTokens[0].equals("%Start"))
 				throw new RuntimeException("\n Grammar file malformed.");
 			startToken = lineTokens[1].trim();
-			//System.out.println(startToken);
+			// System.out.println(startToken);
 			// Create parse table builder			
 			parserGenerator = new ParserGenerator(terminalTokens,nonterminalTokens,startToken);
 			
@@ -256,6 +255,7 @@ public class ParserDriver
 	 * @param string - string to have multiple spaces removed
 	 * @return string without multiple spaces
 	 */
+
 	private static String removeMultipleSpaces(String string)
 	{
 		String oldString;

@@ -9,19 +9,22 @@
 using namespace std;
 #define ERROR "ERROR"
 
-
+// * Check whether a character is alphabet or not
 bool isAlpha(char ch){
     return ((ch>='a' && ch<='z')||(ch>='A' && ch<='Z'));
 }
 
+// * Check whether a character is digit or not
 bool isNum(char ch){
     return (ch>='0' && ch<='9');
 }
 
+// * Check whether a character is delimiter or not
 bool isDelimiter(char ch){
     return ch==' '||ch=='\t';
 }
 
+// * Check whether a string is alphanumeric or not
 bool isAlNum(string s){
     for(int i=0;i<s.size();i++){
         if(isAlpha(s[i] || isNum(s[i])))
@@ -32,10 +35,19 @@ bool isAlNum(string s){
     return true;
 }
 
+// * converting a char to string
 string toString(char c){
     return string(1,c);
 }
 
+/**
+ * ? Tokens are 
+ * * ), (, {, }, 
+ * * <, >, <=, >=, =,
+ * * ,, ;, ', ", eof, id
+ * * +, -, ++, --,
+ * * void, main, char, string, while, stringToken, charToken
+*/ 
 
 string determineToken(string s){
     if(s==""){

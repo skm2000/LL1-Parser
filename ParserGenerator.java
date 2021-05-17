@@ -4,12 +4,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-/**
- * Class generates the parse table.
- * 
- * @author Logan Blyth, James McCarty, & Robert Rayborn 
- *
- */
+
 
 public class ParserGenerator
 {
@@ -22,20 +17,21 @@ public class ParserGenerator
 	private ParseTable parseTable;
 	
 	/**
-	 * Sets up class variables
+	 * * Sets up class variables
 	 * @param terminals - names of the terminals used
 	 * @param nonterminals - names of the nonterminals used
 	 * @param start - name of the starting nonterminal
 	 */
+
 	public ParserGenerator(String[] terminals, String[] nonterminals, String start)
 	{
-		// create variables
+		//* create variables
 		this.nonterminalRuleHT = new Hashtable<String, NonterminalRule>();
 		this.terminalRuleHT = new Hashtable<String, TerminalRule>();
 		this.nonterminalRules = new LinkedList<NonterminalRule>();
 		this.terminalRules = new LinkedList<TerminalRule>();
 		
-		// add terminals to hash table
+		//* add terminals to hash table
 		for(String terminal : terminals)
 		{
 			if (terminal.equals(EpsilonRule.getEpsilonRule().getSymbol()))
@@ -44,22 +40,22 @@ public class ParserGenerator
 				this.terminalRuleHT.put(terminal, new TerminalRule(terminal));
 		}
 		
-		// add nonterminals to hash table
+		//* add nonterminals to hash table
 		for(String nonterminal : nonterminals)
 		{
 			this.nonterminalRuleHT.put(nonterminal, new NonterminalRule(nonterminal));
 		}
 		
-		// set up terminal dollar rule and add it to the hash table
+		//* set up terminal dollar rule and add it to the hash table
 		TerminalRule dollarRule = new TerminalRule("$");
 		this.terminalRuleHT.put("$", dollarRule);
 		
-		// set up starting rule
+		//* set up starting rule
 		//System.out.println(this.nonterminalRuleHT.get(start));
 		NonterminalRule startingRule = this.nonterminalRuleHT.get(start);
 		startingRule.getFollow().add(dollarRule);	
 		
-		// create parse table
+		//* create parse table
 		this.parseTable = new ParseTable(startingRule, dollarRule);
 	}
 	
@@ -76,7 +72,7 @@ public class ParserGenerator
 					"Symbol $ is a reserved symbol.");
 		}
 		
-		// generate a production rule for the new symbol
+		//* generate a production rule for the new symbol
 		LinkedList<GrammarRule> productionRule = new LinkedList<GrammarRule>(); 
 		for(String productionRuleString : productionRuleStrings)
 		{
@@ -88,7 +84,7 @@ public class ParserGenerator
 				throw new RuntimeException("\n Error Parsing Rules. \n" 
 						+ "Symbol " + productionRuleString + " is not in the grammar.");
 		}
-		// add the production rule to the symbol's grammar rule
+		//* add the production rule to the symbol's grammar rule
 		this.nonterminalRuleHT.get(symbol).addProductionRule(productionRule);
 	}
 	
