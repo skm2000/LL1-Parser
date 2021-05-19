@@ -12,11 +12,15 @@ using namespace std;
  * ? TOKEN CLASS
  * * token_id = lexeme;
  * * token = consists of assign_op, string,  char, parenthesis, relational_op and identifiers;
- * * row = row number of that particular token;
+ * * row = current row number of that particular token;
+ * * row_declared = originally row where it has been declared;
+ * * column_declared = originally column where it has been declared;
  * * column = column number of that particular token;
  * * scope = scope number of that particular token, a counter kept which increases with  '{' and decreases with '}';
- * * getter & setter = get and set the value of their respective fields
- * * displayToken = prints the field of the token class
+ * * getter & setter = get and set the value of their respective fields;
+ * * displayToken = prints the field of the token class;
+ * * is_being_declared = if it is declared or not;
+ * * scope_declared = in which scope it is declared;
 */
 
 class Token{
