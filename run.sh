@@ -4,9 +4,9 @@ cd Output
 rm -r *.csv
 cd ..
 cd Lexer/include
-g++ Token.h
-g++ AllTokensFunctions.h
-g++ SymbolTable.h
+# g++ Token.h
+# g++ AllTokensFunctions.h
+# g++ SymbolTable.h
 g++ Lexer.cpp
 ./a.out INPUTFILENAME
 cd ../../
