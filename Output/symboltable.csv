@@ -1,29 +1,40 @@
 ======================================SYMBOL TABLE==========================================
 
 --------------------------------------------------------------------------------------------
-|LEXEME|	|TOKEN|	|ROW|	|COLUMN|	|SCOPE|	|ROW_DECLARED|	|COLUMN_DECLARED|	|SCOPE_DECLARED|	|IS_BEING_DECLARED
+|LEXEME|	|TOKEN|	|DTYPE|	|ROW|	|COLUMN|	|SCOPE|	|ROW_DECLARED|	|COLUMN_DECLARED|	|SCOPE_DECLARED|	|IS_BEING_DECLARED
 --------------------------------------------------------------------------------------------
-c	id	1	17	0	1	17	0	1
-s	id	1	27	0	1	27	0	1
-x	id	3	15	2	3	15	2	1
-s	id	4	10	2	1	27	0	0
-p	id	16	33	6	16	33	6	1
-s	id	17	33	6	17	33	6	1
-py	id	22	18	2	22	18	2	1
-s	id	22	22	2	1	27	0	0
-s	id	23	16	2	1	27	0	0
-py	id	23	21	2	22	18	2	0
-s	id	24	20	3	1	27	0	0
-x	id	25	19	4	3	15	2	0
-c	id	26	18	4	1	17	0	0
-c	id	26	26	4	1	17	0	0
-s	id	27	24	4	1	27	0	0
-c	id	28	22	5	1	17	0	0
-c	id	28	26	5	1	17	0	0
-c	id	30	24	4	1	17	0	0
-s	id	31	22	5	1	27	0	0
-s	id	31	26	5	1	27	0	0
-d	id	33	25	4	33	25	4	1
-s	id	33	29	4	1	27	0	0
-y	id	35	19	3	35	19	3	1
-s	id	36	14	3	1	27	0	0
+c	id	char	1	17	0	1	17	0	1
+s	id	string	1	27	0	1	27	0	1
+x	id	char	3	15	2	3	15	2	1
+s	id	string	4	10	2	1	27	0	0
+s	id	string	11	14	3	1	27	0	0
+s	id	string	11	23	3	1	27	0	0
+abc	id	string	12	23	3	12	23	3	1
+def	id	string	12	27	3	12	27	3	1
+efgh	id	string	12	32	3	12	32	3	1
+s	id	string	13	21	3	13	21	3	1
+s	id	string	18	36	5	1	27	0	0
+p	id	string	19	33	6	19	33	6	1
+s	id	string	20	33	6	20	33	6	1
+s	id	string	24	21	3	24	21	3	1
+py	id	string	26	18	2	26	18	2	1
+s	id	string	26	22	2	1	27	0	0
+z	id	string	27	17	2	27	17	2	1
+s	id	string	28	16	2	1	27	0	0
+py	id	string	28	21	2	26	18	2	0
+s	id	string	29	20	3	1	27	0	0
+x	id	char	30	19	4	3	15	2	0
+c	id	char	31	18	4	1	17	0	0
+c	id	char	31	26	4	1	17	0	0
+s	id	string	32	24	4	1	27	0	0
+c	id	char	33	22	5	1	17	0	0
+c	id	char	33	26	5	1	17	0	0
+c	id	char	35	24	4	1	17	0	0
+s	id	string	36	22	5	1	27	0	0
+s	id	string	36	26	5	1	27	0	0
+d	id	string	38	25	4	38	25	4	1
+s	id	string	38	29	4	1	27	0	0
+z	id	string	39	18	4	27	17	2	0
+d	id	string	39	20	4	38	25	4	0
+y	id	char	41	19	3	41	19	3	1
+s	id	string	42	14	3	1	27	0	0

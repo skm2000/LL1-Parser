@@ -6,30 +6,42 @@
 SymbolTable * symtab;
 SymbolTable * errortab;
 bool is_being_declared = false;
-
+map<int,int> scope_count_map;
+string curr_dtype;
 void insertInTable(string s,int row,int column,int scope){
     string token_id = determineToken(s);
     Token * t;
-    t = new Token(s,token_id,row,column,scope,is_being_declared); 
+    //cout<<token_id<<endl;
+    if((token_id!="," && token_id!="id" && token_id!="char" && token_id!="string")&& is_being_declared){
+        is_being_declared=false;
+    }
+    //cout<<is_being_declared<<endl;
+    if(is_being_declared){
+        t = new Token(s,token_id,row,column,scope,scope_count_map[scope],is_being_declared,curr_dtype,scope_count_map); 
+    }
+    else{
+        t = new Token(s,token_id,row,column,scope,scope_count_map[scope],is_being_declared,scope_count_map); 
+    }
     if(token_id==ERROR){
-        errortab->insert_token(t);
+        errortab->insert_error_token(t);
         cout<<"Invalid token "<<s<<endl;
         errortab->closeFile();
 
         exit(1);
     }
     if(!symtab->insert_token(t)){
-        errortab->insert_token(t);
+        errortab->insert_error_token(t);
         cout<<"Error inserting in symbol table token "<<s<<endl;
         errortab->closeFile();
         exit(1);
     }
-    else{
-        if(token_id=="id" && is_being_declared){
-            is_being_declared=false;
-        }
-    }
+    // else{
+    //     if(token_id=="id" && is_being_declared){
+    //         is_being_declared=false;
+    //     }
+    // }
     if(token_id =="char" || token_id=="string"){
+        curr_dtype=token_id;
         is_being_declared=true;
     }
 }
@@ -103,12 +115,21 @@ void generateTokens(string filename){
                 //cout<<s<<endl;
                 insertInTable(s,row,column,scope);
             }
+            if(ch==';' && is_being_declared){
+                is_being_declared=false;
+            }
             //cout<<ch<<" ";
             string token_new = toString(ch);
             insertInTable(token_new,row,column,scope);
             s="";
         }
         if(ch=='{'){
+            if(scope_count_map.find(scope+1)==scope_count_map.end()){
+                scope_count_map.insert({scope+1,0});
+            }
+            else{
+                scope_count_map[scope+1]++;
+            }
             //cout<<s<<" ";
             if(s!=""){
                 insertInTable(s,row,column,scope);
@@ -206,7 +227,7 @@ void generateTokens(string filename){
 int main(int argc, char** argv){
     symtab = new SymbolTable("../../Output/symboltable.csv","../../tokens.tok");
     errortab = new SymbolTable("../../Output/errortab.csv","../../error_tokens.tok");
-    generateTokens("../../Input/test.c");   
+    generateTokens("../../Input/test2.c");   
     return 0;
 }
 
