@@ -14,25 +14,26 @@ void main(char c, string s){
                 {
                     while("abc" < "xyz"){
                         string p = "123";
+                        string s = "alpha";
                     }
                 }
             }
         }
         string py = s;
-        while(y < z){
-            while(z<'a'){
-                ++y;
+        while(s < py){
+            while(s<'a'){
+                ++x;
                 c = 'a'+c;
-                while(a>="aaczx"){
-                    y = y-'4';
+                while(s>="aaczx"){
+                    c = c-'4';
                 }
-                while(c<d){
-                    c = c+"abcd";
+                while(c<'e'){
+                    s = s+"abcd";
                 }
-                string d = e+"Efgh"+"exyz";
+                string d = s+"Efgh"+"exyz";
             }
             char y = 'y';
-            z = "hh";
+            s = "hh";
         }
     }
 }

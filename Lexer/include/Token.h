@@ -26,13 +26,17 @@ class Token{
         int row;
         int column;
         int scope;
-
-        Token(string token, string token_id,int row, int column,int scope){
+        bool is_being_declared;
+        int row_declared;
+        int column_declared;
+        int scope_declared;
+        Token(string token, string token_id,int row, int column,int scope,bool is_being_declared){
             this->token = token;
             this->token_id = token_id;
             this->row = row;
             this->column = column;
             this->scope = scope;
+            this->is_being_declared = is_being_declared;
         }
 
         string getToken(){
