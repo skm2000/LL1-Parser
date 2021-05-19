@@ -1,0 +1,31 @@
+|LEXEME|	|TOKEN|	  |ROW|	  |COLUMN|	|SCOPE|	|ROW_DECLARED|	|COLUMN_DECLARED|	|SCOPE_DECLARED|	|IS_BEING_DECLARED|
+
+
+	c		  id		1	    17		    0			1				17					0				1
+	s		  id		1	    27		    0			1				27					0				1
+	x		  id		3	    15		    2			3				15					2				1
+	s		  id		4	    10		    2			1				27					0				0
+	c		  id		6	    19		    3			6				19					3				1
+	c		  id		8	    23		    4			8				23					4				1
+	p		  id		16	    25		    4			16				25					4				1
+	p		  id		21	    25		    4			21				25					4				1
+	p		  id		28	    33		    6			28				33					6				1
+	s		  id		29	    33		    6			29				33					6				1
+	py		  id		34	    18		    2			34				18					2				1
+	s		  id		34	    22		    2			1				27					0				0
+	s		  id		35	    16		    2			1				27					0				0
+	py		  id		35	    21		    2			34				18					2				0
+	s		  id		36	    20		    3			1				27					0				0
+	x		  id		37	    19		    4			3				15					2				0
+	c		  id		38	    18		    4			1				17					0				0
+	c		  id		38	    26		    4			1				17					0				0
+	s		  id		39	    24		    4			1				27					0				0
+	c		  id		40	    22		    5			1				17					0				0
+	c		  id		40	    26		    5			1				17					0				0
+	c		  id		42	    24		    4			1				17					0				0
+	s		  id		43	    22		    5			1				27					0				0
+	s		  id		43	    26		    5			1				27					0				0
+	d		  id		45	    25		    4			45				25					4				1
+	s		  id		45	    29		    4			1				27					0				0
+	y		  id		47	    19		    3			47				19					3				1
+	s		  id		48	    14		    3			1				27					0				0

@@ -18,7 +18,7 @@ void main(char c, string s){
         }
         {
             {
-                string pq = "xyz";
+                string p = "xyz";
             }
         }
         {
