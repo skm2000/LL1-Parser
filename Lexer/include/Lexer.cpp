@@ -5,11 +5,41 @@
 
 SymbolTable * symtab;
 SymbolTable * errortab;
+bool is_being_declared = false;
+
+void insertInTable(string s,int row,int column,int scope){
+    string token_id = determineToken(s);
+    Token * t;
+    t = new Token(s,token_id,row,column,scope,is_being_declared); 
+    if(token_id==ERROR){
+        errortab->insert_token(t);
+        cout<<"Invalid token "<<s<<endl;
+        errortab->closeFile();
+
+        exit(1);
+    }
+    if(!symtab->insert_token(t)){
+        errortab->insert_token(t);
+        cout<<"Error inserting in symbol table token "<<s<<endl;
+        errortab->closeFile();
+        exit(1);
+    }
+    else{
+        if(token_id=="id" && is_being_declared){
+            is_being_declared=false;
+        }
+    }
+    if(token_id =="char" || token_id=="string"){
+        is_being_declared=true;
+    }
+}
+
+
 void generateTokens(string filename){
     char ch;
     char lastchr;
-    int row=0;
-    int column=0;
+    int row=1;
+    int column=1;
     int scope=0;
     bool lastCharPending = false;
     bool opensinglequote = false;
@@ -25,15 +55,7 @@ void generateTokens(string filename){
                 if(ch=='='){
                     s+=lastchr;
                     s+=ch;
-                    token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope); 
-                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                    insertInTable(s,row,column,scope);
                     //* cout<<s<<" ";
                     s="";
                     lastCharPending = false;
@@ -42,15 +64,7 @@ void generateTokens(string filename){
                 else{
                     //cout<<lastchr;
                     string token_new = toString(lastchr);
-                    token_id = determineToken(token_new);
-                     t = new Token(token_new,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                    insertInTable(token_new,row,column,scope);
                     //updateSymbolTable(lastchr,determineTokenId(chr),row,column,scope);
                     s="";
                 }
@@ -59,15 +73,7 @@ void generateTokens(string filename){
                 if(lastchr =='+' && ch=='+'){
                     s+=lastchr;
                     s+=ch;
-                    token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope); 
-                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                    insertInTable(s,row,column,scope);
                     //* cout<<s<<" ";
                     s="";
                     lastCharPending = false;
@@ -76,15 +82,7 @@ void generateTokens(string filename){
                 else if(lastchr =='-' && ch=='-'){
                     s+=lastchr;
                     s+=ch;
-                    token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                    errortab->insert_token(t);
-                    cout<<"Invalid token "<<s<<endl;
-                    errortab->closeFile();
-                    exit(0);
-                }
-                    symtab->insert_token(t);
+                    insertInTable(s,row,column,scope);
                     //* cout<<s<<" ";
                     s="";
                     lastCharPending = false;
@@ -92,15 +90,7 @@ void generateTokens(string filename){
                 }
                 else{
                     string token_new = toString(lastchr);
-                    token_id = determineToken(token_new);
-                    t = new Token(token_new,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                    insertInTable(token_new,row,column,scope);
                     //updateSymbolTable(lastchr,determineTokenId(chr),row,column,scope);
                     s="";
                 }
@@ -111,94 +101,38 @@ void generateTokens(string filename){
             //cout<<s<<" ";
             if(s!=""){
                 //cout<<s<<endl;
-                token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             //cout<<ch<<" ";
             string token_new = toString(ch);
-            token_id = determineToken(token_new);
-                    t = new Token(token_new,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+            insertInTable(token_new,row,column,scope);
             s="";
         }
         if(ch=='{'){
             //cout<<s<<" ";
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             scope++;
             //cout<<ch<<" ";
             string token_new = toString(ch);
-            token_id = determineToken(token_new);
-                    t = new Token(token_new,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+            insertInTable(token_new,row,column,scope);
             s="";
         }
         if(ch=='}'){
             //cout<<s<<" ";
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             scope--;
             string token_new = toString(ch);
-            token_id = determineToken(token_new);
-                    t = new Token(token_new,token_id,row,column,scope);
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+            insertInTable(token_new,row,column,scope);
             //cout<<ch<<" ";
             s="";
         }
         if(isDelimiter(ch)){
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             //updateSymbolTable(s,determineTokenId(s),row,column,scope);
             s="";
@@ -207,30 +141,14 @@ void generateTokens(string filename){
             column=0;
             row++;
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             s="";
         }
         if(ch=='<' || ch=='>' || ch=='+' || ch=='-'){
             //cout<<s<<" ";
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             //updateSymbolTable(s,determineTokenId(s),row,column,scope);
             s="";
@@ -240,45 +158,19 @@ void generateTokens(string filename){
         if(ch=='='){
             //cout<<s<<" ";
             if(s!=""){
-                token_id = determineToken(s);
-                t = new Token(s,token_id,row,column,scope); 
-                                    if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+                insertInTable(s,row,column,scope);
             }
             //updateSymbolTable(s,determineTokenId(s),row,column,scope);
             //cout<<ch<<" ";
             string token_new = toString(ch);
-            token_id = determineToken(token_new);
-            t = new Token(token_new,token_id,row,column,scope); 
-                                if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
+            insertInTable(token_new,row,column,scope);
             //updateSymbolTable(s,determineTokenId(s),row,column,scope);
             s="";
         }
         if(ch=='\''){
             if(opensinglequote){
                 s+='\'';
-                //updateSymbolTable(s,determineTokenId(s),row,column,scope);
-                if(s!=""){
-                    token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope); 
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
-                }
+                insertInTable(s,row,column,scope);
                 //cout<<s<<" ";
                 s="";     
                 opensinglequote = false;
@@ -291,19 +183,7 @@ void generateTokens(string filename){
         if(ch=='\"'){
             if(opendoublequote){
                 s+='\"';
-                //updateSymbolTable(s,determineTokenId(s),row,column,scope);
-                //cout<<s<<" ";
-                if(s!=""){
-                    token_id = determineToken(s);
-                    t = new Token(s,token_id,row,column,scope); 
-                                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
-                }
+                insertInTable(s,row,column,scope);
                 s="";     
                 opendoublequote = false;
             }
@@ -317,17 +197,8 @@ void generateTokens(string filename){
         }
         column++;
     }
-    token_id = determineToken("eof");
-    t = new Token(s,token_id,row,column,scope); 
-                        if(token_id==ERROR){
-                        errortab->insert_token(t);
-                        cout<<"Invalid token "<<s<<endl;
-                        errortab->closeFile();
-                        exit(0);
-                    }
-                    symtab->insert_token(t);
-    //cout<<"eof";
-    if(opensinglequote || opendoublequote){
+    insertInTable("eof",row,column,scope);
+    if(opensinglequote || opendoublequote || is_being_declared){
         cout<<"Error detected\n";
     }
 }
@@ -336,5 +207,6 @@ int main(int argc, char** argv){
     symtab = new SymbolTable("../../Output/symboltable.csv","../../tokens.tok");
     errortab = new SymbolTable("../../Output/errortab.csv","../../error_tokens.tok");
     generateTokens("../../Input/test.c");   
+    return 0;
 }
 
