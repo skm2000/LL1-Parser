@@ -102,6 +102,7 @@ class SymbolTable{
         */
 
         bool checkInsertion(Token * t){
+            map<int,int> scope_count_map = t->scope_count_map;
             if(t->token_id!="id"){
                 return true;
             }
@@ -112,15 +113,15 @@ class SymbolTable{
                     t->scope_declared=t->scope;
                 }
                 else{
-                    cout<<"Not declared\n";
+                    cout<<"Not declared "<<t->token<<" "<<t->row<<" "<<t->column<<endl;
                 }
                 return t->is_being_declared;
             }
             if(t->is_being_declared){
                 for(int i=0;i<string_tokens[t->token].size();i++){
-                    if(t->scope==string_tokens[t->token][i].scope){
-                        if(string_tokens[t->token][i].is_being_declared ){
-                            cout<<"Same token declaration in same scope\n";
+                    if(t->scope==string_tokens[t->token][i].scope && t->scope_count==string_tokens[t->token][i].scope_count){
+                        if(string_tokens[t->token][i].is_being_declared){
+                            cout<<"Same token "<<t->row<<" "<<t->column<<" declared in same scope("<<string_tokens[t->token][i].row<<" "<<string_tokens[t->token][i].column<<")";
                             return false;
                         }
                     }
@@ -135,15 +136,20 @@ class SymbolTable{
                 t->column_declared=-1;
                 t->scope_declared=-1;
                 for(int i=0;i<string_tokens[t->token].size();i++){
-                    if(string_tokens[t->token][i].scope>t->scope_declared && string_tokens[t->token][i].scope<=t->scope && string_tokens[t->token][i].is_being_declared){
+                    if(string_tokens[t->token][i].scope>t->scope_declared 
+                    && (string_tokens[t->token][i].scope<=t->scope 
+                    && string_tokens[t->token][i].is_being_declared 
+                    && string_tokens[t->token][i].scope_count==scope_count_map[string_tokens[t->token][i].scope]
+                    )){
                         t->row_declared=string_tokens[t->token][i].row;
                         t->column_declared = string_tokens[t->token][i].column;
                         t->scope_declared = string_tokens[t->token][i].scope;
+                        t->dtype = string_tokens[t->token][i].dtype;
                     }
                     
                 }
                 if(t->row_declared==-1){
-                    cout<<"Token "<<t->token<<" not in the scope"<<endl;
+                    cout<<"Token "<<t->token<<" "<<t->row<<" "<<t->column<<" not in the scope or redeclared"<<endl;
                 }
                 return t->row_declared!=-1;
             }

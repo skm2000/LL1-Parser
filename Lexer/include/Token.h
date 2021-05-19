@@ -34,15 +34,30 @@ class Token{
         int row_declared;
         int column_declared;
         int scope_declared;
-        Token(string token, string token_id,int row, int column,int scope,bool is_being_declared){
+        int scope_count;
+        map<int,int> scope_count_map;
+        string dtype;
+        Token(string token, string token_id,int row, int column,int scope,int scope_count,bool is_being_declared,map<int,int> scope_count_map){
             this->token = token;
             this->token_id = token_id;
             this->row = row;
             this->column = column;
             this->scope = scope;
-            this->is_being_declared = is_being_declared;
+            this->scope_count=scope_count;
+            this->is_being_declared=is_being_declared;
+            this->scope_count_map = scope_count_map;
         }
-
+        Token(string token, string token_id,int row, int column,int scope, int scope_count, bool is_being_declared,string dtype, map<int,int> scope_count_map){
+            this->token = token;
+            this->token_id = token_id;
+            this->row = row;
+            this->column = column;
+            this->scope = scope;
+            this->scope_count=scope_count;
+            this->is_being_declared = is_being_declared;
+            this->dtype=dtype;
+            this->scope_count_map = scope_count_map;
+        }
         string getToken(){
             return this->token;
         }
