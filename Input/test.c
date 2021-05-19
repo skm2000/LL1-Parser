@@ -1,12 +1,24 @@
 void main(char c, string s){
     {
         char x = '1';
-        s = "abc";
+        s = "1abc";
         {
+            char c = 'z';
             {
+                char c = 'y';
                 while('a' < 'z'){
 
                 }
+            }
+        }
+        {
+            {
+                string p = "123";
+            }
+        }
+        {
+            {
+                string pq = "xyz";
             }
         }
         {
